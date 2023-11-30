@@ -1,5 +1,5 @@
 #calculadora lgpd python
-#exemplo simples usando a biblioteca tkinter
+#usando a biblioteca tkinter
 
 import tkinter as tk
 from tkinter import ttk
