@@ -1,60 +1,55 @@
-#calculadora lgpd python
-#usando a biblioteca tkinter
+# LGPD Calculator Python
+# using the tkinter library
 
 import tkinter as tk
 from tkinter import ttk
 
-def calcular_multa():
-    valor_base = float(valor_base_entry.get())
-    agravantes = float(agravantes_combo.get())
-    atenuantes = float(atenuantes_combo.get())
+def calculate_penalty():
+    base_value = float(base_value_entry.get())
+    aggravating_factors = float(aggravating_combo.get())
+    mitigating_factors = float(mitigating_combo.get())
 
-    multa =  valor_base * (1 + agravantes - atenuantes)
+    penalty =  base_value * (1 + aggravating_factors - mitigating_factors)
 
-    resultado_label.config(text=f"valor da Multa: R$ {multa:.2f}")
+    result_label.config(text=f"Penalty value: R$ {penalty:.2f}")
 
-#vamos criar a janela principal
-janela = tk.Tk()
-janela.title("Calculadora de multas da LGPD")
+# Let's create the main window
+window = tk.Tk()
+window.title("LGPD Penalty Calculator")
 
-#vamos criar e configurar o container: 
-container = ttk.Frame(janela, padding=20)
+# Let's create and configure the container:
+container = ttk.Frame(window, padding=20)
 container.pack()
 
-#vamos criar os elementos da interface
-titulo_label = ttk.Label(container, text="Caulculadora de Multas da LGPD", font=("Arial", 14))
-titulo_label.grid(column=0, row=0,  columnspan=2)
+# Let's create the interface elements
+title_label = ttk.Label(container, text="LGPD Penalty Calculator", font=("Arial", 14))
+title_label.grid(column=0, row=0,  columnspan=2)
 
-valor_base_label = ttk.Label(container,text="Valor base da Multa:")
-valor_base_label.grid(column=0, row=1)
+base_value_label = ttk.Label(container, text="Base Penalty Value:")
+base_value_label.grid(column=0, row=1)
 
-valor_base_entry = ttk.Entry(container)
-valor_base_entry.grid(column=1, row=1)
+base_value_entry = ttk.Entry(container)
+base_value_entry.grid(column=1, row=1)
 
-agravantes_label = ttk.Label(container, text= "Agravantes:")
-agravantes_label.grid(column=0, row=2)
+aggravating_label = ttk.Label(container, text= "Aggravating Factors:")
+aggravating_label.grid(column=0, row=2)
 
-agravantes_combo  = ttk.Combobox(container, value=["1.00", "2.00", "3.00"])
-agravantes_combo.set("1.00")
-agravantes_combo.grid(column=1, row=2)   
+aggravating_combo  = ttk.Combobox(container, values=["1.00", "2.00", "3.00"])
+aggravating_combo.set("1.00")
+aggravating_combo.grid(column=1, row=2)   
     
-atenuantes_label = ttk.Label(container, text="Atenuantes:")
-atenuantes_label.grid(column=0, row=3)
+mitigating_label = ttk.Label(container, text="Mitigating Factors:")
+mitigating_label.grid(column=0, row=3)
     
-atenuantes_combo = ttk.Combobox(container, values=["1.00", "2.00", "3.00"])
-atenuantes_combo.set("1.00")
-atenuantes_combo.grid(column=1, row=3)
+mitigating_combo = ttk.Combobox(container, values=["1.00", "2.00", "3.00"])
+mitigating_combo.set("1.00")
+mitigating_combo.grid(column=1, row=3)
 
-calcular_button = ttk.Button(container, text="Calcular Multa", command=calcular_multa)
-calcular_button.grid(column=0, row=4, columnspan=2)
+calculate_button = ttk.Button(container, text="Calculate Penalty", command=calculate_penalty)
+calculate_button.grid(column=0, row=4, columnspan=2)
 
-resultado_label= ttk.Label(container, text="")
-resultado_label.grid(column=0, row=5, columnspan=2)
+result_label= ttk.Label(container, text="")
+result_label.grid(column=0, row=5, columnspan=2)
 
-#vamor iniciar a janela da aplicação
-janela.mainloop()
-    
-
-
-                            
-
+# Let's start the application window
+window.mainloop()
