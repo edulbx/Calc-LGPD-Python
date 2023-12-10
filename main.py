@@ -23,12 +23,6 @@ def validate_integer(value, action, field_name):
     return True
 
 
-# ... (seu código anterior)
-
-# ...
-
-# ... (seu código anterior)
-
 def calculate_penalty():
     revenue_value = float(revenue_value_entry.get())
 
@@ -39,25 +33,41 @@ def calculate_penalty():
     medida_corretiva = float(corrective_descumprida_value_entry.get()) if corrective_descumprida_value_entry.get() else 0
 
     # Getting values for mitigantes
-    cessacao_infração = float(cessação_combo.get()) if cessação_combo.get() else 0
-    politica_boas_praticas = float(bpratica_combo.get()) if bpratica_combo.get() else 0
-    implementacao_medidas = float(imple_medidas.get()) if imple_medidas.get() else 0
+    cessacao_infração = cessação_combo.get() if cessação_combo.get() else "Nenhuma"
+    politica_boas_praticas = bpratica_combo.get() if bpratica_combo.get() else "Nenhuma"
+    implementacao_medidas = imple_medidas.get() if imple_medidas.get() else "Nenhuma"
 
     # Cálculos
     aggravating_factors = 0
     mitigating_factors = 0
 
+    # Agravantes
     aggravating_factors += revenue_value * 0.10 * reincidencia_especifica if reincidencia_especifica <= 4 else revenue_value * 0.40
     aggravating_factors += revenue_value * 0.05 * reincidencia_generica if reincidencia_generica <= 4 else revenue_value * 0.20
     aggravating_factors += revenue_value * 0.30 * medida_orientation if medida_orientation <= 3 else revenue_value * 0.90
     aggravating_factors += revenue_value * 0.20 * medida_corretiva
 
-    mitigating_factors += revenue_value * 0.15 * cessacao_infração if cessacao_infração <= 3 else revenue_value * 0.50
-    mitigating_factors += revenue_value * 0.25 * politica_boas_praticas if politica_boas_praticas == "Sim" else 0
-    mitigating_factors += revenue_value * 0.35 * implementacao_medidas if implementacao_medidas == "casos em que houver cooperação ou boa-fé por parte do infrator." else 0
+    # Mitigantes
+    if cessacao_infração == "cessada antes da instauração do procedimento preparatório da ANPD":
+        mitigating_factors += revenue_value * 0.75
+    elif cessacao_infração == "cessada após a instauração do procedimento preparatório e antes da instauração do processo administrativo sancionador":
+        mitigating_factors += revenue_value * 0.50
+    elif cessacao_infração == "cessada após a instauração do processo administrativo sancionador e antes da decisão de primeira instância no âmbito do processo":
+        mitigating_factors += revenue_value * 0.30
+
+    if politica_boas_praticas == "Sim":
+        mitigating_factors += revenue_value * 0.20
+
+    if implementacao_medidas == "medidas forem comprovadas antes da instauração do procedimento preparatório ou processo administrativo sancionador pela ANPD;":
+        mitigating_factors += revenue_value * 0.20
+    elif implementacao_medidas == "medidas forem comprovadas após a instauração do procedimento preparatório e antes da instauração do processo administrativo sancionador":
+        mitigating_factors += revenue_value * 0.10
+    elif implementacao_medidas == "casos em que houver cooperação ou boa-fé por parte do infrator.":
+        mitigating_factors += revenue_value * 0.05
 
     penalty = revenue_value * (1 + aggravating_factors - mitigating_factors)
     result_label.config(text=f"Penalty value: R$ {penalty:.2f}")
+
 
 
 
