@@ -79,6 +79,8 @@ def calculate_penalty():
 window = tk.Tk()
 window.title("LGPD Penalty Calculator")
 
+
+
 # Let's create and configure the container:
 container = ttk.Frame(window, padding=50)
 container.pack()
