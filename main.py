@@ -5,20 +5,20 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as msg
 
-# Função para validar 
+# Func to validate data input
 def validate_integer(value, action, field_name):
     if action == '1':  
         try:
-            # Tentar converter o valor para int
+            # Try to convert the value to int
             int_value = int(value)
-            # Verificar se está no intervalo desejado
+            # Set the range
             if 1 <= int_value <= 100:
                 return True
             else:
-                msg.showerror("Erro", f"{field_name} deve ser um número inteiro entre 1 e 100.")
+                msg.showerror("Erro", f"{field_name} needs to be a Integer between 1 e 100.")
                 return False
         except ValueError:
-            msg.showerror("Erro", f"Por favor, insira um valor numérico inteiro para {field_name}.")
+            msg.showerror("Erro", f"Please it needs to be a number input in  {field_name}.")
             return False
     return True
 
