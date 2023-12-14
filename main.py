@@ -26,7 +26,7 @@ def validate_integer(value, action, field_name):
 def calculate_penalty():
     revenue_value = float(revenue_value_entry.get())
 
-    # Getting values for agravantes
+    # Getting values for aggravating
     reincidencia_especifica = float(espec_value_entry.get()) if espec_value_entry.get() else 0
     reincidencia_generica = float(generic_value_entry.get()) if generic_value_entry.get() else 0
     medida_orientation = float(orientation_descumprida_value_entry.get()) if orientation_descumprida_value_entry.get() else 0
