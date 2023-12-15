@@ -28,19 +28,24 @@ def calculate_penalty():
     # Getting values for aggravating
     specific_recidivism = float(espec_value_entry.get()) if espec_value_entry.get() else 0
     generic_recidivism = float(generic_value_entry.get()) if generic_value_entry.get() else 0
-    orientation_measure = float(orientation_descumprida_value_entry.get()) if orientation_descumprida_value_entry.get() else 0
-    corrective_measure = float(corrective_descumprida_value_entry.get()) if corrective_descumprida_value_entry.get() else 0
+    orientation_measure = float(orientation_disobeyed_value_entry.get()) if orientation_disobeyed_value_entry.get() else 0
+    corrective_measure = float(corrective_disobeyed_value_entry.get()) if corrective_disobeyed_value_entry.get() else 0
 
     # Getting values for mitigating
-    cessation_infraction = cessação_combo.get() if cessação_combo.get() else "None"
-    good_practices_policy = bpratica_combo.get() if bpratica_combo.get() else "None"
-    implementation_measures = imple_medidas.get() if imple_medidas.get() else "None"
+    cessation_infraction = cessation_combo.get() if cessation_combo.get() else "None"
+    good_practices_policy = good_practices_combo.get() if good_practices_combo.get() else "None"
+    implementation_measures = imple_measures.get() if imple_measures.get() else "None"
+
+    # Additional factor for medium or severe infraction
+    infraction_type = type_infraction_combo.get()
+    infraction_factor = 0.10 if infraction_type == "Medium" else 0.20
 
     # Calculations
     aggravating_factors = 0
     mitigating_factors = 0
 
     # Aggravating
+    aggravating_factors += revenue_value * infraction_factor  # Medium or Severe Infraction
     aggravating_factors += revenue_value * 0.10 * specific_recidivism if specific_recidivism <= 4 else revenue_value * 0.40
     aggravating_factors += revenue_value * 0.05 * generic_recidivism if generic_recidivism <= 4 else revenue_value * 0.20
     aggravating_factors += revenue_value * 0.30 * orientation_measure if orientation_measure <= 3 else revenue_value * 0.90
@@ -133,61 +138,61 @@ generic_value_entry = ttk.Entry(container, validate='key', validatecommand=vcmd_
 generic_value_entry.grid(column=1, row=8)
 
 # Failure to Comply with Orientation or Preventive Measure
-orientation_descumprida_label = ttk.Label(container, text="Failure to Comply with Orientation or Preventive Measure:")
-orientation_descumprida_label.grid(column=0, row=9)
+orientation_disobeyed_label = ttk.Label(container, text="Failure to Comply with Orientation or Preventive Measure:")
+orientation_disobeyed_label.grid(column=0, row=9)
 
-orientation_descumprida_entry = ttk.Entry(container)
-orientation_descumprida_entry.grid(column=1, row=9)
-vcmd_orientation_descumprida = (window.register(validate_integer), '%P', '%d', 'Failure to Comply with Orientation or Preventive Measure')
-orientation_descumprida_value_entry = ttk.Entry(container, validate='key', validatecommand=vcmd_orientation_descumprida)
-orientation_descumprida_value_entry.grid(column=1, row=9)
+orientation_disobeyed_entry = ttk.Entry(container)
+orientation_disobeyed_entry.grid(column=1, row=9)
+vcmd_orientation_disobeyed = (window.register(validate_integer), '%P', '%d', 'Failure to Comply with Orientation or Preventive Measure')
+orientation_disobeyed_value_entry = ttk.Entry(container, validate='key', validatecommand=vcmd_orientation_disobeyed)
+orientation_disobeyed_value_entry.grid(column=1, row=9)
 
 # Failure to Comply with Corrective Measure
-corrective_descumprida_label = ttk.Label(container, text="Failure to Comply with Corrective Measure:")
-corrective_descumprida_label.grid(column=0, row=10)
+corrective_disobeyed_label = ttk.Label(container, text="Failure to Comply with Corrective Measure:")
+corrective_disobeyed_label.grid(column=0, row=10)
 
-corrective_descumprida_value_entry = ttk.Entry(container)
-corrective_descumprida_value_entry.grid(column=1, row=10)
+corrective_disobeyed_value_entry = ttk.Entry(container)
+corrective_disobeyed_value_entry.grid(column=1, row=10)
 
-vcmd_corrective_descumprida = (window.register(validate_integer), '%P', '%d', 'Failure to Comply with Corrective Measure')
-corrective_descumprida_value_entry = ttk.Entry(container, validate='key', validatecommand=vcmd_corrective_descumprida)
-corrective_descumprida_value_entry.grid(column=1, row=10)
+vcmd_corrective_disobeyed = (window.register(validate_integer), '%P', '%d', 'Failure to Comply with Corrective Measure')
+corrective_disobeyed_value_entry = ttk.Entry(container, validate='key', validatecommand=vcmd_corrective_disobeyed)
+corrective_disobeyed_value_entry.grid(column=1, row=10)
 
 title_label = ttk.Label(container, text="Mitigating Factors", font=("Arial", 14))
 title_label.grid(column=0, row=11, columnspan=2)
 
 # Mitigating
 # Cessation of the Infraction
-cessacao_label = ttk.Label(container, text="Cessation of the Infraction:")
-cessacao_label.grid(column=0, row=12)
+cessation_label = ttk.Label(container, text="Cessation of the Infraction:")
+cessation_label.grid(column=0, row=12)
 
-cessacao_combo = ttk.Combobox(container, values=[
+cessation_combo = ttk.Combobox(container, values=[
     "ceased before the initiation of the preparatory procedure by ANPD",
     "ceased after the initiation of the preparatory procedure and before the initiation of the administrative sanctioning process",
     "ceased after the initiation of the administrative sanctioning process and before the decision of the first instance within the process"
 ])
-cessacao_combo.set("Mark the infraction level")
-cessacao_combo.grid(column=1, row=12)  
+cessation_combo.set("Mark the infraction level")
+cessation_combo.grid(column=1, row=12)  
 
 # Good Practices Policy
-bpratica_label = ttk.Label(container, text="Good Practices Policy:")
-bpratica_label.grid(column=0, row=13)
+good_practices_label = ttk.Label(container, text="Good Practices Policy:")
+good_practices_label.grid(column=0, row=13)
 
-bpratica_combo = ttk.Combobox(container, values=["Yes", "No"])
-bpratica_combo.set("Mark the infraction level")
-bpratica_combo.grid(column=1, row=13) 
+good_practices_combo = ttk.Combobox(container, values=["Yes", "No"])
+good_practices_combo.set("Mark the infraction level")
+good_practices_combo.grid(column=1, row=13) 
 
 # Implementation of Measures
-imple_medidas_label = ttk.Label(container, text="Implementation of Measures:")
-imple_medidas_label.grid(column=0, row=14)
+imple_measures_label = ttk.Label(container, text="Implementation of Measures:")
+imple_measures_label.grid(column=0, row=14)
 
-imple_medidas = ttk.Combobox(container, values=[
+imple_measures = ttk.Combobox(container, values=[
     "measures are proven before the initiation of the preparatory procedure or administrative sanctioning process by ANPD;",
     "measures are proven after the initiation of the preparatory procedure and before the initiation of the administrative sanctioning process",
     "cases where there is cooperation or good faith on the part of the offender."
 ])
-imple_medidas.set("Mark the infraction level")
-imple_medidas.grid(column=1, row=14) 
+imple_measures.set("Mark the infraction level")
+imple_measures.grid(column=1, row=14) 
 
 # Button for calculation
 calculate_button = ttk.Button(container, text="Calculate Penalty", command=calculate_penalty)
